@@ -100,8 +100,7 @@ var quotes = [
   "Each person must live their life as a model for others.",
   "A champion is defined not by their wins but by how they can recover when they fall."
 ];
-var savedPosters = [];
-var currentPoster;
+
 
 // event listeners go here 👇
 
@@ -124,7 +123,6 @@ function hideAllSections() {
   savedPosters.classList.add('hidden');
 }
 
-// Event listeners for each button 
 
 makePosterBtnForm.addEventListener('click', function() {
   hideAllSections();
@@ -146,10 +144,6 @@ backToMainBtn.addEventListener('click', function() {
   mainPoster.classList.remove('hidden');
 });
 
-
-
-
-// Get load and random button
 document.addEventListener('DOMContentLoaded', function() {
   displayRandomPoster();
 });
@@ -171,7 +165,6 @@ function getRandomIndex(array) {
 }
 
 function createPoster(imageURL, title, quote) {
-  var poster = {
     id: Date.now(), 
     imageURL: imageURL, 
     title: title, 
@@ -181,8 +174,6 @@ return poster
 }
 
 // function to display a random poster
-
-
 function displayRandomPoster() {
   var randomImage = images[getRandomIndex(images)];
   var randomTitle = titles[getRandomIndex(titles)];
