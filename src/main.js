@@ -51,7 +51,7 @@ var newQuote = document.querySelector('#poster-quote');
 var posterImg = document.querySelector('.poster-img');
 var posterTitle = document.querySelector('.poster-title');
 var posterQuote = document.querySelector('.poster-quote');
-
+var grid = document.querySelector('.saved-posters-grid');
 
 
 // we've provided you with some data to work with 👇
@@ -202,18 +202,51 @@ function hideAllSections() {
 // })
 
 // New button work on double save issue
+saveThisPoster.addEventListener('click', function() {
+  saveCurrentPoster();
+});
 
+
+// This function displays the saved posters
+function displaySavedPosters() {
+  var grid = document.querySelector('.saved-posters-grid');
+  grid.innerHTML = '';
+
+  console.log("Displaying saved posters:", savedCustomPosters);  // Logging for debugging
+
+  savedCustomPosters.forEach(function(poster) {
+    var posterHTML = `
+      <div class="mini-poster">
+        <img src="${poster.imageURL}" alt="poster image">
+        <h2>${poster.title}</h2>
+        <h4>${poster.quote}</h4>
+      </div>
+    `;
+
+    grid.innerHTML += posterHTML;
+  });
+}
+
+// This function saves the current poster
 function saveCurrentPoster() {
   var currentImage = document.querySelector('.poster-img').src;
   var currentTitle = document.querySelector('.poster-title').innerText;
   var currentQuote = document.querySelector('.poster-quote').innerText;
 
   var newPoster = createPoster(currentImage, currentTitle, currentQuote);
-  savedCustomPosters.push(newPoster); 
+
+  var isDuplicate = savedCustomPosters.some(function(poster) {
+    return poster.imageURL === currentImage && poster.title === currentTitle && poster.quote === currentQuote;
+  });
+
+  if (!isDuplicate) {
+    savedCustomPosters.push(newPoster);
+  }
+
+  console.log("Saved posters array:", savedCustomPosters); // Logging for debugging
 
   displaySavedPosters();
 }
-
 
 
 makePosterBtnForm.addEventListener('click', function() {
