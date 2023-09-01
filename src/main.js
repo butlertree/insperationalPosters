@@ -1,4 +1,56 @@
 // query selector variables go here 👇
+// var randomBtn = document.querySelector('.show-random');
+// var mainPoster = document.querySelector('.main-poster');
+// var posterForm = document.querySelector('.poster-form'); //allready hidden
+// var savedPosters = document.querySelector('.saved-posters'); //allready hidden
+// var makePosterBtnForm = document.querySelector('.show-form');
+// var showSavedBtn = document.querySelector('.show-saved');
+// var neverMindBtn = document.querySelector('.show-main'); 
+// var backToMainBtn = document.querySelector('.back-to-main'); 
+// var showMyPoster = document.querySelector('.make-poster')
+
+//  DOM elements
+// var randomBtn = document.querySelector('.show-random');
+// var mainPoster = document.querySelector('.main-poster');
+// var posterForm = document.querySelector('.poster-form'); //allready hidden
+// var savedPosters = document.querySelector('.saved-posters'); //allready hidden
+// var makePosterBtnForm = document.querySelector('.show-form');
+// var showSavedBtn = document.querySelector('.show-saved');
+// var neverMindBtn = document.querySelector('.show-main'); 
+// var backToMainBtn = document.querySelector('.back-to-main'); 
+// var showMyPoster = document.querySelector('.make-poster')
+
+
+
+// var newImage = document.querySelector('#poster-image-url');
+// var newTitle = document.querySelector('#poster-title');
+// var newQuote = document.querySelector('#poster-quote');
+// var posterImg = document.querySelector('.poster-img');
+// var posterTitle = document.querySelector('.poster-title');
+// var posterQuote = document.querySelector('.poster-quote');
+
+
+
+// var newImage = document.querySelector('#poster-image-url');
+// var newTitle = document.querySelector('#poster-title');
+// var newQuote = document.querySelector('#poster-quote');
+// var posterImg = document.querySelector('.poster-img');
+// var posterTitle = document.querySelector('.poster-title');
+// var posterQuote = document.querySelector('.poster-quote');
+
+// var newImage = document.querySelector('#poster-image-url');
+// var newTitle = document.querySelector('#poster-title');
+// var newQuote = document.querySelector('#poster-quote');
+// var posterImg = document.querySelector('.poster-img');
+// var posterTitle = document.querySelector('.poster-title');
+// var posterQuote = document.querySelector('.poster-quote');
+
+var newImage = document.querySelector('#poster-image-url');
+var newTitle = document.querySelector('#poster-title');
+var newQuote = document.querySelector('#poster-quote');
+var posterImg = document.querySelector('.poster-img');
+var posterTitle = document.querySelector('.poster-title');
+var posterQuote = document.querySelector('.poster-quote');
 
 
 
@@ -100,9 +152,11 @@ var quotes = [
   "Each person must live their life as a model for others.",
   "A champion is defined not by their wins but by how they can recover when they fall."
 ];
-
+var savedCustomPosters = [];
+// var currentPoster = createPoster(newImage.value, newTitle.value, newQuote.value)
 
 // event listeners go here 👇
+
 
 
 
@@ -115,6 +169,8 @@ var makePosterBtnForm = document.querySelector('.show-form');
 var showSavedBtn = document.querySelector('.show-saved');
 var neverMindBtn = document.querySelector('.show-main'); 
 var backToMainBtn = document.querySelector('.back-to-main'); 
+var showMyPoster = document.querySelector('.make-poster')
+var saveThisPoster = document.querySelector('.save-poster')
 
 // function to hide all sections
 function hideAllSections() {
@@ -122,6 +178,42 @@ function hideAllSections() {
   posterForm.classList.add('hidden');
   savedPosters.classList.add('hidden');
 }
+
+// // Possible save poster button
+
+// saveThisPoster.addEventListener('click', function(event){     //NEW
+//   event.preventDefault();
+
+// // Created poster 
+//   var currentPoster = createPoster(newImage.value, newTitle.value, newQuote.value)
+  
+//   // The .some method iterates through the array to find elements that match the conditions and calls back true or false
+
+//   var newSavedPoster = savedCustomPosters.some(function(currentPoster){
+//     return currentPoster.imageURL === currentPoster.imageURL &&
+//            currentPoster.title === currentPoster.title &&
+//            currentPoster.quote === currentPoster.quote
+
+//   })
+//   // If newSavedPoster is not 'true' and saved then pusth to savedCustomPosters array
+//   if (!newSavedPoster){
+// savedCustomPosters.push(currentPoster)
+//   }
+// })
+
+// New button work on double save issue
+
+function saveCurrentPoster() {
+  var currentImage = document.querySelector('.poster-img').src;
+  var currentTitle = document.querySelector('.poster-title').innerText;
+  var currentQuote = document.querySelector('.poster-quote').innerText;
+
+  var newPoster = createPoster(currentImage, currentTitle, currentQuote);
+  savedCustomPosters.push(newPoster); 
+
+  displaySavedPosters();
+}
+
 
 
 makePosterBtnForm.addEventListener('click', function() {
@@ -144,19 +236,41 @@ backToMainBtn.addEventListener('click', function() {
   mainPoster.classList.remove('hidden');
 });
 
+// Load page and random button
 document.addEventListener('DOMContentLoaded', function() {
   displayRandomPoster();
 });
 
 randomBtn.addEventListener('click', displayRandomPoster);
 
-var savePosterBtn = document.querySelector('.save-poster');
 
-savePosterBtn.addEventListener('click', saveCurrentPoster);
 
-var showMyPosterBtn = document.querySelector('.show-my-poster');
+// var newImage = document.querySelector('#poster-image-url');
+// var newTitle = document.querySelector('#poster-title');
+// var newQuote = document.querySelector('#poster-quote');
+// var posterImg = document.querySelector('.poster-img');
+// var posterTitle = document.querySelector('.poster-title');
+// var posterQuote = document.querySelector('.poster-quote');
 
-showMyPosterBtn.addEventListener('click', createCustomPoster);
+showMyPoster.addEventListener('click', function(event) {
+    event.preventDefault();
+
+    // update poster
+    posterImg.src = newImage.value;
+    posterTitle.innerText = newTitle.value;
+    posterQuote.innerText = newQuote.value;
+
+    images.push(newImage.value);
+    titles.push(newTitle.value);
+    quotes.push(newQuote.value);
+    
+    hideAllSections();
+
+    mainPoster.classList.remove('hidden');
+  
+
+    // If needed later: push to arrays
+});
 
 // functions and event handlers go here 👇
 // (we've provided two to get you started)!
@@ -165,6 +279,7 @@ function getRandomIndex(array) {
 }
 
 function createPoster(imageURL, title, quote) {
+  poster =  {
     id: Date.now(), 
     imageURL: imageURL, 
     title: title, 
@@ -172,8 +287,9 @@ function createPoster(imageURL, title, quote) {
 };
 return poster
 }
-
+// var currentPoster = createPoster(newImage.value, newTitle.value, newQuote.value) // Find arguments
 // function to display a random poster
+
 function displayRandomPoster() {
   var randomImage = images[getRandomIndex(images)];
   var randomTitle = titles[getRandomIndex(titles)];
@@ -183,7 +299,3 @@ function displayRandomPoster() {
   document.querySelector('.poster-title').innerText = randomTitle;
   document.querySelector('.poster-quote').innerText = randomQuote;
 }
-
-// functions to run buttons
-
-
