@@ -1,3 +1,11 @@
+var newImage = document.querySelector('#poster-image-url');
+var newTitle = document.querySelector('#poster-title');
+var newQuote = document.querySelector('#poster-quote');
+var posterImg = document.querySelector('.poster-img');
+var posterTitle = document.querySelector('.poster-title');
+var posterQuote = document.querySelector('.poster-quote');
+var grid = document.querySelector('.saved-posters-grid');
+
 
 //  DOM elements
 var randomBtn = document.querySelector('.show-random');
@@ -10,15 +18,6 @@ var neverMindBtn = document.querySelector('.show-main');
 var backToMainBtn = document.querySelector('.back-to-main'); 
 var showMyPoster = document.querySelector('.make-poster')
 var saveThisPoster = document.querySelector('.save-poster')
-
-
-var newImage = document.querySelector('#poster-image-url');
-var newTitle = document.querySelector('#poster-title');
-var newQuote = document.querySelector('#poster-quote');
-var posterImg = document.querySelector('.poster-img');
-var posterTitle = document.querySelector('.poster-title');
-var posterQuote = document.querySelector('.poster-quote');
-var grid = document.querySelector('.saved-posters-grid');
 
 
 // we've provided you with some data to work with 👇
@@ -119,7 +118,8 @@ var quotes = [
   "Each person must live their life as a model for others.",
   "A champion is defined not by their wins but by how they can recover when they fall."
 ];
-
+var savedCustomPosters = [];
+// var currentPoster = createPoster(newImage.value, newTitle.value, newQuote.value)
 
 // event listeners go here 👇
 
@@ -131,51 +131,39 @@ function hideAllSections() {
   savedPosters.classList.add('hidden');
 }
 
-var savedCustomPosters = [];
-var saveThisPoster = document.querySelector('.save-poster');
-
-var newImage = document.querySelector('#poster-image-url'); 
-var newTitle = document.querySelector('#poster-title'); 
-var newQuote = document.querySelector('#poster-quote'); 
-
-saveThisPoster.addEventListener('click', saveCurrentPoster);
-
-function createPoster(imageURL, title, quote) {
-  return {
-    id: Date.now(),
-    imageURL: imageURL,
-    title: title,
-    quote: quote
-  };
-}
-// HTML inner text to update grid
-function displaySavedPosters() {
-  var grid = document.querySelector('.saved-posters-grid');
-  var postersHTML = '';
-
-  savedCustomPosters.forEach(function(poster) {
-    postersHTML += '<div class="mini-poster">' +
-                   '<img src="' + poster.imageURL + '" alt="poster image">' +
-                   '<h2>' + poster.title + '</h2>' +
-                   '<h4>' + poster.quote + '</h4>' +
-                   '</div>';
-  });
-
-//   })
-//   // If newSavedPoster is not 'true' and saved then pusth to savedCustomPosters array
-//   if (!newSavedPoster){
-// savedCustomPosters.push(currentPoster)
-//   }
-// })
 
 // New button work on double save issue
+saveThisPoster.addEventListener('click', function() {
+  saveCurrentPoster();
+});
+
+
+// This function displays the saved posters
+function displaySavedPosters() {
+  var grid = document.querySelector('.saved-posters-grid');
+  grid.innerHTML = '';
+
+  console.log("Displaying saved posters:", savedCustomPosters);  // Logging for debugging
+
+  savedCustomPosters.forEach(function(poster) {
+    var posterHTML = `
+      <div class="mini-poster">
+        <img src="${poster.imageURL}" alt="poster image">
+        <h2>${poster.title}</h2>
+        <h4>${poster.quote}</h4>
+      </div>
+    `;
+
+    grid.innerHTML += posterHTML;
+  });
+}
 
 // This function saves the current poster
 function saveCurrentPoster() {
-  var currentImage = newImage.value;
-  var currentTitle = newTitle.value;
-  var currentQuote = newQuote.value;
-  
+  var currentImage = document.querySelector('.poster-img').src;
+  var currentTitle = document.querySelector('.poster-title').innerText;
+  var currentQuote = document.querySelector('.poster-quote').innerText;
+
   var newPoster = createPoster(currentImage, currentTitle, currentQuote);
 
   var isDuplicate = savedCustomPosters.some(function(poster) {
@@ -220,14 +208,6 @@ document.addEventListener('DOMContentLoaded', function() {
 randomBtn.addEventListener('click', displayRandomPoster);
 
 
-// For reference
-// var newImage = document.querySelector('#poster-image-url');
-// var newTitle = document.querySelector('#poster-title');
-// var newQuote = document.querySelector('#poster-quote');
-// var posterImg = document.querySelector('.poster-img');
-// var posterTitle = document.querySelector('.poster-title');
-// var posterQuote = document.querySelector('.poster-quote');
-
 showMyPoster.addEventListener('click', function(event) {
     event.preventDefault();
 
@@ -245,7 +225,7 @@ showMyPoster.addEventListener('click', function(event) {
     mainPoster.classList.remove('hidden');
   
 
-    // If needed later: push to arrays
+    
 });
 
 // functions and event handlers go here 👇
@@ -254,15 +234,15 @@ function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 }
 
-// function createPoster(imageURL, title, quote) {
-//   poster =  {
-//     id: Date.now(), 
-//     imageURL: imageURL, 
-//     title: title, 
-//     quote: quote
-// };
-// return poster
-// }
+function createPoster(imageURL, title, quote) {
+  poster =  {
+    id: Date.now(), 
+    imageURL: imageURL, 
+    title: title, 
+    quote: quote
+};
+return poster
+}
 // var currentPoster = createPoster(newImage.value, newTitle.value, newQuote.value) // Find arguments
 // function to display a random poster
 
