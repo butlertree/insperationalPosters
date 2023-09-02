@@ -20,6 +20,10 @@ var showMyPoster = document.querySelector('.make-poster')
 var saveThisPoster = document.querySelector('.save-poster')
 
 
+// Event listener to target the saved posters grid with a double click
+document.querySelector('.saved-posters-grid').addEventListener('dblclick', removePoster);
+
+
 // we've provided you with some data to work with 👇
 var images = [
   "./assets/bees.jpg",
@@ -137,27 +141,6 @@ saveThisPoster.addEventListener('click', function() {
   saveCurrentPoster();
 });
 
-
-// This function displays the saved posters
-function displaySavedPosters() {
-  var grid = document.querySelector('.saved-posters-grid');
-  grid.innerHTML = '';
-
-  console.log("Displaying saved posters:", savedCustomPosters);  // Logging for debugging
-
-  savedCustomPosters.forEach(function(poster) {
-    var posterHTML = `
-      <div class="mini-poster">
-        <img src="${poster.imageURL}" alt="poster image">
-        <h2>${poster.title}</h2>
-        <h4>${poster.quote}</h4>
-      </div>
-    `;
-
-    grid.innerHTML += posterHTML;
-  });
-}
-
 // This function saves the current poster
 function saveCurrentPoster() {
   var currentImage = document.querySelector('.poster-img').src;
@@ -176,7 +159,51 @@ function saveCurrentPoster() {
 
   console.log("Saved posters array:", savedCustomPosters); // Logging for debugging
 
-  displaySavedPosters();
+  displaySavedPosters(); //Adding HTML elements to the DOM grid element
+}
+
+
+// This function displays the saved posters
+function displaySavedPosters() {
+  var grid = document.querySelector('.saved-posters-grid');
+  grid.innerHTML = '';
+
+  // console.log("Displaying saved posters:", savedCustomPosters);  // Logging for debugging
+
+  savedCustomPosters.forEach(function(poster) {
+    var posterHTML = `
+      <div class="mini-poster">
+        <img src="${poster.imageURL}" alt="poster image">
+        <h2>${poster.title}</h2>
+        <h4>${poster.quote}</h4>
+      </div>
+    `;
+
+    grid.innerHTML += posterHTML;
+  });
+}
+// This function removes saved posters with double click
+function removePoster(event) {
+  // Check if the clicked element or its parent has the class 'mini-poster'
+  var targetPoster = event.target.closest('.mini-poster');
+
+  if (targetPoster) {
+    // Image URL of the clicked poster to identify which poster to remove from the array
+    var imageURL = targetPoster.querySelector('img').src;
+
+    // Find the index of the poster in the array using the imageURL
+    var posterIndex = savedCustomPosters.findIndex(function(poster) {
+      return poster.imageURL === imageURL;
+    });
+
+    // Remove the poster from the array if an index is found
+    if (posterIndex > -1) {
+      savedCustomPosters.splice(posterIndex, 1); //remove from the savedCustomPosters array
+    }
+
+    // Remove the poster from the DOM
+    targetPoster.remove();
+  }
 }
 
 
@@ -207,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 randomBtn.addEventListener('click', displayRandomPoster);
 
-
+//This button allows the user to input values in the form and saves the values and displays them on the main page
 showMyPoster.addEventListener('click', function(event) {
     event.preventDefault();
 
