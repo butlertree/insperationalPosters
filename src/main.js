@@ -1,49 +1,16 @@
-// query selector variables go here 👇
-// var randomBtn = document.querySelector('.show-random');
-// var mainPoster = document.querySelector('.main-poster');
-// var posterForm = document.querySelector('.poster-form'); //allready hidden
-// var savedPosters = document.querySelector('.saved-posters'); //allready hidden
-// var makePosterBtnForm = document.querySelector('.show-form');
-// var showSavedBtn = document.querySelector('.show-saved');
-// var neverMindBtn = document.querySelector('.show-main'); 
-// var backToMainBtn = document.querySelector('.back-to-main'); 
-// var showMyPoster = document.querySelector('.make-poster')
 
 //  DOM elements
-// var randomBtn = document.querySelector('.show-random');
-// var mainPoster = document.querySelector('.main-poster');
-// var posterForm = document.querySelector('.poster-form'); //allready hidden
-// var savedPosters = document.querySelector('.saved-posters'); //allready hidden
-// var makePosterBtnForm = document.querySelector('.show-form');
-// var showSavedBtn = document.querySelector('.show-saved');
-// var neverMindBtn = document.querySelector('.show-main'); 
-// var backToMainBtn = document.querySelector('.back-to-main'); 
-// var showMyPoster = document.querySelector('.make-poster')
+var randomBtn = document.querySelector('.show-random');
+var mainPoster = document.querySelector('.main-poster');
+var posterForm = document.querySelector('.poster-form'); //allready hidden
+var savedPosters = document.querySelector('.saved-posters'); //allready hidden
+var makePosterBtnForm = document.querySelector('.show-form');
+var showSavedBtn = document.querySelector('.show-saved');
+var neverMindBtn = document.querySelector('.show-main'); 
+var backToMainBtn = document.querySelector('.back-to-main'); 
+var showMyPoster = document.querySelector('.make-poster')
+var saveThisPoster = document.querySelector('.save-poster')
 
-
-
-// var newImage = document.querySelector('#poster-image-url');
-// var newTitle = document.querySelector('#poster-title');
-// var newQuote = document.querySelector('#poster-quote');
-// var posterImg = document.querySelector('.poster-img');
-// var posterTitle = document.querySelector('.poster-title');
-// var posterQuote = document.querySelector('.poster-quote');
-
-
-
-// var newImage = document.querySelector('#poster-image-url');
-// var newTitle = document.querySelector('#poster-title');
-// var newQuote = document.querySelector('#poster-quote');
-// var posterImg = document.querySelector('.poster-img');
-// var posterTitle = document.querySelector('.poster-title');
-// var posterQuote = document.querySelector('.poster-quote');
-
-// var newImage = document.querySelector('#poster-image-url');
-// var newTitle = document.querySelector('#poster-title');
-// var newQuote = document.querySelector('#poster-quote');
-// var posterImg = document.querySelector('.poster-img');
-// var posterTitle = document.querySelector('.poster-title');
-// var posterQuote = document.querySelector('.poster-quote');
 
 var newImage = document.querySelector('#poster-image-url');
 var newTitle = document.querySelector('#poster-title');
@@ -152,25 +119,10 @@ var quotes = [
   "Each person must live their life as a model for others.",
   "A champion is defined not by their wins but by how they can recover when they fall."
 ];
-var savedCustomPosters = [];
-// var currentPoster = createPoster(newImage.value, newTitle.value, newQuote.value)
+
 
 // event listeners go here 👇
 
-
-
-
-//  DOM elements
-var randomBtn = document.querySelector('.show-random');
-var mainPoster = document.querySelector('.main-poster');
-var posterForm = document.querySelector('.poster-form'); //allready hidden
-var savedPosters = document.querySelector('.saved-posters'); //allready hidden
-var makePosterBtnForm = document.querySelector('.show-form');
-var showSavedBtn = document.querySelector('.show-saved');
-var neverMindBtn = document.querySelector('.show-main'); 
-var backToMainBtn = document.querySelector('.back-to-main'); 
-var showMyPoster = document.querySelector('.make-poster')
-var saveThisPoster = document.querySelector('.save-poster')
 
 // function to hide all sections
 function hideAllSections() {
@@ -179,41 +131,49 @@ function hideAllSections() {
   savedPosters.classList.add('hidden');
 }
 
-// // Possible save poster button
+var savedCustomPosters = [];
+var saveThisPoster = document.querySelector('.save-poster');
 
-// saveThisPoster.addEventListener('click', function(event){     //NEW
-//   event.preventDefault();
+var newImage = document.querySelector('#poster-image-url'); 
+var newTitle = document.querySelector('#poster-title'); 
+var newQuote = document.querySelector('#poster-quote'); 
 
-// // Created poster 
-//   var currentPoster = createPoster(newImage.value, newTitle.value, newQuote.value)
-  
-//   // The .some method iterates through the array to find elements that match the conditions and calls back true or false
+saveThisPoster.addEventListener('click', saveCurrentPoster);
 
-//   var newSavedPoster = savedCustomPosters.some(function(currentPoster){
-//     return currentPoster.imageURL === currentPoster.imageURL &&
-//            currentPoster.title === currentPoster.title &&
-//            currentPoster.quote === currentPoster.quote
+function createPoster(imageURL, title, quote) {
+  return {
+    id: Date.now(),
+    imageURL: imageURL,
+    title: title,
+    quote: quote
+  };
+}
+// HTML inner text to update grid
+function displaySavedPosters() {
+  var grid = document.querySelector('.saved-posters-grid');
+  var postersHTML = '';
 
-//   })
-//   // If newSavedPoster is not 'true' and saved then pusth to savedCustomPosters array
-//   if (!newSavedPoster){
-// savedCustomPosters.push(currentPoster)
-//   }
-// })
+  savedCustomPosters.forEach(function(poster) {
+    postersHTML += '<div class="mini-poster">' +
+                   '<img src="' + poster.imageURL + '" alt="poster image">' +
+                   '<h2>' + poster.title + '</h2>' +
+                   '<h4>' + poster.quote + '</h4>' +
+                   '</div>';
+  });
 
-// New button work on double save issue
+  grid.innerHTML = postersHTML;
+}
 
 function saveCurrentPoster() {
-  var currentImage = document.querySelector('.poster-img').src;
-  var currentTitle = document.querySelector('.poster-title').innerText;
-  var currentQuote = document.querySelector('.poster-quote').innerText;
-
+  var currentImage = newImage.value;
+  var currentTitle = newTitle.value;
+  var currentQuote = newQuote.value;
+  
   var newPoster = createPoster(currentImage, currentTitle, currentQuote);
   savedCustomPosters.push(newPoster); 
 
   displaySavedPosters();
 }
-
 
 
 makePosterBtnForm.addEventListener('click', function() {
@@ -244,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
 randomBtn.addEventListener('click', displayRandomPoster);
 
 
-
+// For reference
 // var newImage = document.querySelector('#poster-image-url');
 // var newTitle = document.querySelector('#poster-title');
 // var newQuote = document.querySelector('#poster-quote');
@@ -278,15 +238,15 @@ function getRandomIndex(array) {
   return Math.floor(Math.random() * array.length);
 }
 
-function createPoster(imageURL, title, quote) {
-  poster =  {
-    id: Date.now(), 
-    imageURL: imageURL, 
-    title: title, 
-    quote: quote
-};
-return poster
-}
+// function createPoster(imageURL, title, quote) {
+//   poster =  {
+//     id: Date.now(), 
+//     imageURL: imageURL, 
+//     title: title, 
+//     quote: quote
+// };
+// return poster
+// }
 // var currentPoster = createPoster(newImage.value, newTitle.value, newQuote.value) // Find arguments
 // function to display a random poster
 
