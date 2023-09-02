@@ -18,7 +18,7 @@ var newQuote = document.querySelector('#poster-quote');
 var posterImg = document.querySelector('.poster-img');
 var posterTitle = document.querySelector('.poster-title');
 var posterQuote = document.querySelector('.poster-quote');
-
+var grid = document.querySelector('.saved-posters-grid');
 
 
 // we've provided you with some data to work with 👇
@@ -161,16 +161,32 @@ function displaySavedPosters() {
                    '</div>';
   });
 
-  grid.innerHTML = postersHTML;
-}
+//   })
+//   // If newSavedPoster is not 'true' and saved then pusth to savedCustomPosters array
+//   if (!newSavedPoster){
+// savedCustomPosters.push(currentPoster)
+//   }
+// })
 
+// New button work on double save issue
+
+// This function saves the current poster
 function saveCurrentPoster() {
   var currentImage = newImage.value;
   var currentTitle = newTitle.value;
   var currentQuote = newQuote.value;
   
   var newPoster = createPoster(currentImage, currentTitle, currentQuote);
-  savedCustomPosters.push(newPoster); 
+
+  var isDuplicate = savedCustomPosters.some(function(poster) {
+    return poster.imageURL === currentImage && poster.title === currentTitle && poster.quote === currentQuote;
+  });
+
+  if (!isDuplicate) {
+    savedCustomPosters.push(newPoster);
+  }
+
+  console.log("Saved posters array:", savedCustomPosters); // Logging for debugging
 
   displaySavedPosters();
 }
